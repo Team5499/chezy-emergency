@@ -21,10 +21,6 @@ void OperatorController::handle(SlothRobot* bot)
     {
         wheel_value = 0;
     }
-    if(throttle_value > 0)
-    {
-        wheel_value *= -1;
-    }
     bot->drivetrain.DriveLR(throttle_value + wheel_value,
                             throttle_value - wheel_value);
 
