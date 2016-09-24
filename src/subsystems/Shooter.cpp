@@ -3,39 +3,39 @@
 
 Shooter::Shooter()
     :
-    TopFlyWheel(3),
     BottomFlyWheel(1),
+    TopFlyWheel(3),
     FeedWheel(2),
     ArmPivot(8),
     ArmController(0, 0.08),
-    TopController(1, .000003, 5300),
-    BotController(0, .000001, 4800),
-    CurrentArmSetPoint = 0
+    TopController(1, .000003),//, 5300),
+    BotController(0, .000001),//, 4800),
+    CurrentArmSetpoint(0)
 {
 }
 
 void Shooter::Lower() {
-    ArmPivot.set(0);
+    ArmPivot.Set(0);
 	CurrentArmSetpoint = 0;
 	ArmController.setTarget(0);
 }
 void Shooter::RaiseArm() {
-    ArmPivot.set(ArmController.getOutput());
+    ArmPivot.Set(ArmController.getOutput());
 }
-void Shooter::Feed(); {
-    FeedWheel.set(1);
+void Shooter::Feed() {
+    FeedWheel.Set(1);
 }
 void Shooter::stopFeed() {
-    FeedWheel.set(0);
+    FeedWheel.Set(0);
 }
 void Shooter::ShootWheels(){
-	TopFlyWheel.set(TopController.getOutput());
-	BottomFlyWheel.set(-1 * BotlController.getOutput());
+  TopFlyWheel.Set(TopController.getOutput());
+  BottomFlyWheel.Set(-1 * BotController.getOutput());
 }
 void Shooter::StopWheels() {
-    TopFlyWheel.set(0);
-	BottomFlyWheel.set(0);
-	FeedWheel.set(0);
+    TopFlyWheel.Set(0);
+    BottomFlyWheel.Set(0);
+    FeedWheel.Set(0);
 }
 
 void Shooter::SetArmAngle(double angle) {

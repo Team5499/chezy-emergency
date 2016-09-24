@@ -1,7 +1,7 @@
 #pragma once
 #include <WPILib.h>
-#include "PController.h"
-#include "PLightController.h"
+#include "../controllers/PController.h"
+#include "../controllers/PLightController.h"
 
 class Shooter {
 private:

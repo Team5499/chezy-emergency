@@ -52,22 +52,22 @@ void OperatorController::handle(SlothRobot* bot)
     /* Shooter */
     // Update PID Controllers
     bot->shooter.UpdatePID();
-    if(op.GetRawButton(8){
+    if(op.GetRawButton(8)){
         // Batter Shot
         bot->shooter.SetWheelSpeed(3800.0, 2500.0);
         bot->shooter.SetArmAngle(20.35);
-    } else if(op.GetRawButton(10){
+    } else if(op.GetRawButton(10)){
         // Cleat Shot
         bot->shooter.SetWheelSpeed(5100.0, 5000.0);
         bot->shooter.SetArmAngle(35);
-    } else if (op.getRawButton(9)) {
+    } else if (op.GetRawButton(9)) {
         // Turn Off Shooters
         bot->shooter.SetWheelSpeed(0.0, 0.0);
-        bot->shooter.lower();
+        bot->shooter.Lower();
     }
 
-    if (op.getRawButton(1)) {
-        bot->shooter.feed();
+    if (op.GetRawButton(1)) {
+        bot->shooter.Feed();
     } else {
         bot->shooter.stopFeed();
     }

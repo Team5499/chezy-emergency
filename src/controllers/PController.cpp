@@ -1,13 +1,14 @@
 #include "Pcontroller.h"
 
-PController::PController(int sensorPort, double sens) {
+PController::PController(uint32_t sensorPort, double sens)
     :
     sensor(sensorPort),
-    kP = sens,
-    target = 0
+    kP(sens),
+    target (0)
+{
 }
 double PController::getOutput() {
-    return (target-sensor.Get()) * kP;
+    return (target-sensor.GetValue()) * kP;
 }
 void PController::setTarget(double t) {
     target = t;

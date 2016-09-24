@@ -16,7 +16,10 @@ set(SOURCE_FILES src/SlothBase.cpp
                  src/SlothRobot.cpp
                  src/subsystems/Drivetrain.cpp
                  src/subsystems/Intake.cpp
-                 src/controllers/OperatorController.cpp)
+		 src/subsystems/Shooter.cpp
+		 src/controllers/OperatorController.cpp
+		 src/controllers/PController.cpp
+		 src/controllers/PLightController.cpp)
 add_frc_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Test target

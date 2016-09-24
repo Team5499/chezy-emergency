@@ -1,18 +1,22 @@
-#include "Pcontroller.h"
+#include "PLightController.h"
 
-PLightController::PLightController(int sensorPort, double sens, int top) {
+PLightController::PLightController(int sensorPort, double sens)
     :
-    sensor(sensorPort, top),
-    kP = sens,
-    target = 0
+    sensor(sensorPort),
+    kP(sens),
+    target(0)
+{
 }
 double PLightController::getOutput() {
-    return (target-sensor.Get()) * kP;
+
+  double pv = sensor.Get() / sensor.GetPeriod();
+  return (target - pv) * kP;
+  sensor.Reset();
 }
 void PLightController::setTarget(double t) {
     target = t;
 }
 
 void PLightController::updateSensor() {
-    sensor.update();
+  //double rpm = 60.0 / (sensor.GetPeriod());
 }

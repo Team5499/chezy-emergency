@@ -1,14 +1,14 @@
 #pragma once
 #include <WPILib.h>
 
-
-class PController {
-    private:
-        LightSensor sensor;
-        double kP;
-        double target;
-    public:
-        void setTarget(double target);
-        double getOutput();
-        void updateSensor();
-}
+class PLightController {
+private:
+    Counter sensor;
+    double kP;
+    double target;
+public:
+    PLightController(int sensorPort, double sens);
+    void setTarget(double target);
+    double getOutput();
+    void updateSensor();
+};
