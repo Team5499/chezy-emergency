@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 include(frc.cmake)
 
-project(sloth)
+project(chezy-emergency)
 
 # Team number
 set(TEAM_NUMBER 5499)
@@ -15,6 +15,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 set(SOURCE_FILES src/SlothBase.cpp
                  src/SlothRobot.cpp
                  src/subsystems/Drivetrain.cpp
+                 src/subsystems/Intake.cpp
                  src/controllers/OperatorController.cpp)
 add_frc_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
