@@ -62,4 +62,5 @@ void OperatorController::handle(SlothRobot* bot)
         bot->shooter.SetArmAngle(35);
         
     }
+    bot->shooter.RaiseArm();
 }

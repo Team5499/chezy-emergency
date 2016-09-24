@@ -17,10 +17,10 @@ Shooter::Shooter()
 void Shooter::Lower() {
     ArmPivot.set(0);
 	CurrentArmSetpoint = 0;
-	ArmController.setSetpoint(0);
+	ArmController.setTarget(0);
 }
 void Shooter::RaiseArm() {
-    ArmPivot.set(ArmController;)
+    ArmPivot.set(ArmController.getOutput());
 }
 void Shooter::Feed(); {
     FeedWheel.set(1);
