@@ -12,14 +12,13 @@ private:
     Timer autoTimer;
 public:
     SlothBase();
-    /*
-    void DisabledInit() override;
-    */
-    void AutonomousInit() override;
-    /*
-    void TeleopInit() override;
-    void DisabledPeriodic() override;
-    */
-    void AutonomousPeriodic() override;
+    //void DisabledInit() override;
+    //void DisabledPeriodic() override;
+    
+    //void TeleopInit() override;
     void TeleopPeriodic() override;
+    
+    void AutonomousInit() override;
+    void AutonomousPeriodic() override;
+    
 };
