@@ -9,11 +9,14 @@ class SlothBase : public IterativeRobot
 private:
     SlothRobot bot;
     OperatorController operatorController;
+    Timer autoTimer;
 public:
     SlothBase();
     /*
     void DisabledInit() override;
+    */
     void AutonomousInit() override;
+    /*
     void TeleopInit() override;
     void DisabledPeriodic() override;
     */
