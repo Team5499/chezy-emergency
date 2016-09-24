@@ -11,8 +11,10 @@ private:
     CANTalon FeedWheel;
     CANTalon ArmPivot;
     PController ArmController;
+
     PLightController TopController;
     PLightController BotController;
+
     double CurrentArmSetpoint;
 
 public: 
@@ -23,13 +25,11 @@ public:
     void Lower();
     void RaiseArm();
     void Feed();
+    void stopFeed();
 
     void ShootWheels();
     void StopWheels();
     
     void SetArmAngle(double angle);
     void SetWheelSpeed(double top, double bot);
-
-
-    
 };

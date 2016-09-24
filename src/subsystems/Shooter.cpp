@@ -3,9 +3,9 @@
 
 Shooter::Shooter()
     :
-    TopFlyWheel(2),
+    TopFlyWheel(3),
     BottomFlyWheel(1),
-    FeedWheel(3),
+    FeedWheel(2),
     ArmPivot(8),
     ArmController(0, 0.08),
     TopController(1, .000003, 5300),
@@ -25,6 +25,9 @@ void Shooter::RaiseArm() {
 void Shooter::Feed(); {
     FeedWheel.set(1);
 }
+void Shooter::stopFeed() {
+    FeedWheel.set(0);
+}
 void Shooter::ShootWheels(){
 	TopFlyWheel.set(TopController.getOutput());
 	BottomFlyWheel.set(-1 * BotlController.getOutput());
@@ -41,12 +44,10 @@ void Shooter::SetArmAngle(double angle) {
 void Shooter::SetWheelSpeed(double top, double bot) {
     TopController.setTarget(top);
     BotController.setTarget(bot);
-
 }
 
 void Shooter::UpdatePID() {
     TopController.updateSensor();
     BotController.updateSensor();
-
 
 }
