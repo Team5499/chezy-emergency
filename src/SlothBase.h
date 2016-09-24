@@ -16,7 +16,7 @@ public:
     void AutonomousInit() override;
     void TeleopInit() override;
     void DisabledPeriodic() override;
-    void AutonomousPeriodic() override;
     */
+    void AutonomousPeriodic() override;
     void TeleopPeriodic() override;
 };
