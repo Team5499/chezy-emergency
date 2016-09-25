@@ -30,6 +30,7 @@ function(add_frc_deploy TARGET_NAME TEAM_NUMBER ROBOT_EXECUTABLE)
     find_program(SSH_EXECUTABLE ssh)
     find_program(SCP_EXECUTABLE scp)
 
+    #[[
     if(SSH_EXECUTABLE AND SCP_EXECUTABLE)
 
         add_custom_target(${TARGET_NAME}
@@ -62,7 +63,7 @@ function(add_frc_deploy TARGET_NAME TEAM_NUMBER ROBOT_EXECUTABLE)
     else()
         message(FATAL_ERROR "Could not deploy! ssh/scp executables not found!")
     endif()
-
+    ]]
     add_custom_target(${TARGET_NAME}
             COMMAND sh
             deploy.sh
