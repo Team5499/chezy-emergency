@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 TEAM_NUMBER=$1
 PROGRAM=$2
 ROBOTCOMMAND=$3
@@ -24,8 +24,8 @@ if [[ $? -eq 0 ]]; then
                               sync"
     exit
 fi
-P1=$(echo "$TEAM_NUMBER" | cut -c1 -c2)
-P2=$(echo "$TEAM_NUMBER" | cut -c3 -c4)
+P1=${TEAM_NUMBER:0:2}
+P2=${TEAM_NUMBER:2:2}
 TARGET="10.$P1.$P2.2"
 echo "Not found - probing for $TARGET..."
 ssh "$USER@$TARGET" true &> /dev/null
