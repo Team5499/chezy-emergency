@@ -7,10 +7,14 @@ TARGET_DIR=/home/lvuser
 # Probe for connection
 TARGET="roborio-$TEAM_NUMBER-frc.local"
 echo "Probing for $TARGET..."
+
 #ssh "$USER@$TARGET" true &> /dev/null
 
-PROGRAM=$(sed 's/C://g' <<< $PROGRAM)
+PROGRAM=$(sed 's/C:/\/c/g' <<< $PROGRAM)
+PROGRAM=$(sed 's/\\/\//g' <<< $PROGRAM)
 
+ROBOTCOMMAND=$(sed 's/C:/\/c/g' <<< $ROBOTCOMMAND)
+ROBOTCOMMAND=$(sed 's/\\/\//g' <<< $ROBOTCOMMAND)
 ping $TARGET &> /dev/null
 if [[ $? -eq 0 ]]; then
     echo "Removing old program..."
@@ -18,7 +22,7 @@ if [[ $? -eq 0 ]]; then
     echo "Copying over new program..."
     scp "$PROGRAM" "$TARGET_USER@$TARGET:$TARGET_DIR/FRCUserProgram"
     echo "Stoping netconsole-host..."
-    ssh ssh "$TARGET_USER@$TARGET" "killall -q netconsole-host || :"
+    ssh "$TARGET_USER@$TARGET" "killall -q netconsole-host || :"
     echo "Copying over robotCommand..." 
     scp "$ROBOTCOMMAND" "$TARGET_USER@$TARGET:$TARGET_DIR"
     echo "Cleaning up..."
