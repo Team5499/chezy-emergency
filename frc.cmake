@@ -11,7 +11,7 @@ if(${ARM_TOOLCHAIN} STREQUAL ARM_TOOLCHAIN-NOTFOUND)
 endif()
 set(CMAKE_TOOLCHAIN_FILE ${ARM_TOOLCHAIN})
 
-set(WPILIB_HOME $ENV{HOME}/wpilib/cpp/current)
+set(WPILIB_HOME C:/Users/Rafie/wpilib/cpp/current)
 include_directories(${WPILIB_HOME}/include)
 link_directories(${WPILIB_HOME}/lib)
 
@@ -22,20 +22,23 @@ endfunction()
 
 function(add_frc_deploy TARGET_NAME TEAM_NUMBER ROBOT_EXECUTABLE)
     set(TARGET roboRIO-${TEAM_NUMBER}-FRC.local)
-    set(USERNAME lvuser)
+    #set(USERNAME lvuser)
+    set(USERNAME admin)
     set(DEPLOY_DIR /home/lvuser)
 
     find_program(SSH_EXECUTABLE ssh)
     find_program(SCP_EXECUTABLE scp)
 
     if(SSH_EXECUTABLE AND SCP_EXECUTABLE)
+
         add_custom_target(${TARGET_NAME}
+
                 COMMAND ssh
                 ${USERNAME}@${TARGET}
                 rm -f ${DEPLOY_DIR}/FRCUserProgram
 
                 COMMAND scp
-                ${ROBOT_EXECUTABLE}
+                $(subst C:,,${ROBOT_EXECUTABLE})
                 ${USERNAME}@${TARGET}:${DEPLOY_DIR}/FRCUserProgram
 
                 COMMAND ssh
@@ -43,7 +46,7 @@ function(add_frc_deploy TARGET_NAME TEAM_NUMBER ROBOT_EXECUTABLE)
                 killall -q netconsole-host || :
 
                 COMMAND scp
-                ${WPILIB_HOME}/ant/robotCommand
+                $(subst C:,,${WPILIB_HOME}/ant/robotCommand)
                 ${USERNAME}@${TARGET}:${DEPLOY_DIR}
 
                 COMMAND ssh
