@@ -11,7 +11,13 @@ if(${ARM_TOOLCHAIN} STREQUAL ARM_TOOLCHAIN-NOTFOUND)
 endif()
 set(CMAKE_TOOLCHAIN_FILE ${ARM_TOOLCHAIN})
 
-set(WPILIB_HOME C:/Users/Rafie/wpilib/cpp/current)
+IF (WIN32)
+    set(WPILIB_HOME $ENV{SYSTEMDRIVE}$ENV{HOMEPATH}/wpilib/cpp/current)
+    string(REPLACE "\\" "/" WPILIB_HOME ${WPILIB_HOME})
+ELSE()
+    set(WPILIB_HOME $ENV{HOME}/wpilib/cpp/current)
+ENDIF()
+message(${WPILIB_HOME})
 include_directories(${WPILIB_HOME}/include)
 link_directories(${WPILIB_HOME}/lib)
 
@@ -30,7 +36,7 @@ function(add_frc_deploy TARGET_NAME TEAM_NUMBER ROBOT_EXECUTABLE)
     find_program(SSH_EXECUTABLE ssh)
     find_program(SCP_EXECUTABLE scp)
 
-    #[[
+    
     if(SSH_EXECUTABLE AND SCP_EXECUTABLE)
 
         add_custom_target(${TARGET_NAME}
@@ -63,15 +69,5 @@ function(add_frc_deploy TARGET_NAME TEAM_NUMBER ROBOT_EXECUTABLE)
     else()
         message(FATAL_ERROR "Could not deploy! ssh/scp executables not found!")
     endif()
-    ]]
-    add_custom_target(${TARGET_NAME}
-            COMMAND sh
-            deploy.sh
-            ${TEAM_NUMBER}
-            ${ROBOT_EXECUTABLE}
-            ${WPILIB_HOME}/ant/robotCommand
-
-            DEPENDS ${PROJECT_NAME})
-    set_target_properties(${TARGET_NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 endfunction()
