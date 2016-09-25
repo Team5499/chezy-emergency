@@ -29,11 +29,9 @@ endfunction()
 function(add_frc_deploy TARGET_NAME TEAM_NUMBER ROBOT_EXECUTABLE)
     IF (WIN32)
         string(REPLACE "C:" "/" TARGET_NAME ${TARGET_NAME})
+    ENDIF()
     add_custom_target(${TARGET_NAME}
-	COMMAND sh -c "./deploy.sh \
-       		       ${TEAM_NUMBER} \
-       		       ${ROBOT_EXECUTABLE} \
-            	       ${WPILIB_HOME}/ant/robotCommand"
+	COMMAND sh -c "./deploy.sh ${TEAM_NUMBER} ${ROBOT_EXECUTABLE} ${WPILIB_HOME}/ant/robotCommand"
 	DEPENDS ${PROJECT_NAME})
     set_target_properties(${TARGET_NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE)
 endfunction()
