@@ -20,7 +20,7 @@ void SlothBase::AutonomousPeriodic()
 }
 void SlothBase::TeleopInit()
 {
-    OperatorController.start();
+    operatorController.start();
 }
 
 void SlothBase::TeleopPeriodic()

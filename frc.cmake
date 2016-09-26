@@ -18,7 +18,6 @@ IF (WIN32)
 ELSE()
     set(WPILIB_HOME $ENV{HOME}/wpilib/cpp/current)
     message("Systemtype=Unix-like:WPILIB=${WPILIB_HOME}")
-ELSE()
 ENDIF()
 
 include_directories(${WPILIB_HOME}/include)

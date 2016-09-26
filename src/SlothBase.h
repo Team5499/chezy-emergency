@@ -2,6 +2,7 @@
 #include <WPILib.h>
 #include "SlothRobot.h"
 #include "controllers/OperatorController.h"
+#include "controllers/AutoController.h"
 #include <iostream>
 
 class SlothBase : public IterativeRobot
