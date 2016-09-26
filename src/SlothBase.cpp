@@ -12,7 +12,7 @@ SlothBase::SlothBase()
 void SlothBase::AutonomousInit()
 {
     autoTimer.Reset();
-    bot.intake.SetArm(0.5);
+    bot.intake.SetArm(-0.5);
     
 }
 
