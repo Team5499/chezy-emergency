@@ -11,7 +11,6 @@ public:
     SlothRobot();
     Drivetrain drivetrain;
     Intake intake;
-    \
     Compressor compressor;
 
 };

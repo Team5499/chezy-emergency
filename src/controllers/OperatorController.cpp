@@ -49,5 +49,9 @@ void OperatorController::handle(SlothRobot* bot)
         bot->intake.SetRoller(0);
     }
 
+}
+
+void OperatorController::start()
+{
     
 }

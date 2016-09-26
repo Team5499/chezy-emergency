@@ -12,4 +12,5 @@ private:
 public:
     OperatorController();
     void handle(SlothRobot* bot);
+    void start;
 };

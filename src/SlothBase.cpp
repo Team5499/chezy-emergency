@@ -4,38 +4,23 @@ SlothBase::SlothBase()
     :
     bot(),
     operatorController(),
-    autoTimer()
+    autoController()
 {
     std::cout << "Constructed a SlothBase!" << std::endl;
 }
 
 void SlothBase::AutonomousInit()
 {
-    autoTimer.Reset();
-    bot.intake.SetArm(-0.5);
-    
+    autoController.start();
 }
 
 void SlothBase::AutonomousPeriodic()
 {
-    double time = autoTimer.Get();
-    if(time>2) {
-         if (time < 2.1) {
-            bot.intake.SetArm(0);
-        }
-        else if (time < 7) {
-            bot.drivetrain.Shift(Drivetrain::ShiftState::LOW);
-            bot.drivetrain.DriveLR(1, 1);
-        }
-        else if (time < 12) {
-            bot.drivetrain.Shift(Drivetrain::ShiftState::LOW);
-            bot.drivetrain.DriveLR(-1, -1);
-        }
-        else {
-            bot.drivetrain.DriveLR(0, 0);
-        }
-
-    }
+    autoController.handle(&bot);
+}
+void SlothBase::TeleopInit()
+{
+    OperatorController.start();
 }
 
 void SlothBase::TeleopPeriodic()
