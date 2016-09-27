@@ -6,9 +6,9 @@
 class OperatorController : public GenericController
 {
 private:
-    Joystick wheel;
-    Joystick throttle;
-    Joystick op;
+    Joystick wheel; //!< Reference to wheel for getting steering input.
+    Joystick throttle; //!< Reference to throttle for controlling speed.
+    Joystick op; //!< Reference to intake joysyick for raising/lowering the speed and picking up balls.
 public:
     OperatorController();
     void handle(SlothRobot* bot);

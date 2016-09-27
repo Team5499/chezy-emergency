@@ -1,5 +1,6 @@
 #include "OperatorController.h"
 
+//! Initialize joysticks on driver station.
 OperatorController::OperatorController()
     :
     wheel(0),
@@ -7,12 +8,16 @@ OperatorController::OperatorController()
     op(2)
 {
 }
-
+//! Handle the robot based on Operator controls.
+/**
+* Poll the Operator station and update all subsystems from the Robot.
+* @param bot The bot to be handled.
+*/
 void OperatorController::handle(SlothRobot* bot)
 {
     /* Throttle / wheel control */
-    double throttle_value = throttle.GetRawAxis(1);
-    double wheel_value = wheel.GetRawAxis(0);
+    double throttle_value = throttle.GetRawAxis(1); //!< Read throttle controls.
+    double wheel_value = wheel.GetRawAxis(0); //!< Read 
     if(throttle_value > -0.05 && throttle_value < 0.05)
     {
         throttle_value = 0;
@@ -51,6 +56,7 @@ void OperatorController::handle(SlothRobot* bot)
 
 }
 
+//! Boilerplate.
 void OperatorController::start()
 {
     

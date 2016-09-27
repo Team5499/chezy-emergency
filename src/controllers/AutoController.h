@@ -6,7 +6,7 @@
 class AutoController : public GenericController
 {
 private:
-    Timer autoTimer;
+    Timer autoTimer; //!< Timer to keep track of when to turn/shoot/whatever.
 public:
     AutoController();
     void handle(SlothRobot* bot);
