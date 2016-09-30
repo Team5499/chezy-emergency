@@ -1,11 +1,33 @@
 #include "AutoController.h"
+#include <iterator>
 
 //! Constructor to initialize the timer.
 AutoController::AutoController()
     :
-    autoTimer() 
+    autoTimer()
 {
+    int rL = 5; //!< Number of steps in the routine.
+    double r[rL][5] = {
+        {0.0, 0.0, 0.0, 0.0, 0.0},
+        {0.5, 1.0, 1.0, 0.0, 0.0},
+        {3.0, 0.0, 0.5, -0.2, 0.0},
+        {5.0, 0.8, 0.8, 0.0, 0.0},
+        {8.0, 0.0, 0.0, 0.0, 1.0},
+    };
+    for (int x=0; x<rL; x++) {
+        for (int y=0; y<5; y++) {
+            routine[x][y]=r[x][y];
+        }
+    }
+    
+    currStep = 0;
+    
+    left = 0.0; 
+    right = 0.0;
+    arm = 0.0;
+    roller = 0.0;
 }
+
 //! Autonomously handle the robot.
 
 /**
@@ -17,9 +39,20 @@ AutoController::AutoController()
 */
 void AutoController::handle(SlothRobot* bot)
 {
-    //double time = autoTimer.Get();
-    // Start in low gear
-    bot->drivetrain.Shift(Drivetrain::ShiftState::LOW);
+    double time = autoTimer.Get(); //!< How much time has passed since Autonomous started.
+    if (time >= routine[currStep][0]) { // If the elapsed time is greater than the starting time for the "next" step:
+        currStep++; // OK, we're on the next step now, so we can get ready for the next one.
+        // Check the routine for this step.
+        left = routine[currStep][1];
+        right = routine[currStep][2];
+        arm = routine[currStep][3];
+        roller = routine[currStep][4];
+    }
+    // Set the motors on every tick. 
+    bot->drivetrain.DriveLR(left, right);
+    bot->intake.SetArm(arm);
+    bot->intake.SetRoller(roller);
+    // TODO: Update PID. (Requires sensors)
     
 }
 //! Start timing.

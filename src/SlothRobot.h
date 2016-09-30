@@ -9,9 +9,9 @@ class SlothRobot
 private:
 public:
     SlothRobot();
-    //! List subsystems
-    Drivetrain drivetrain;
-    Intake intake;
+    
+    Drivetrain drivetrain; //!< Drivetrain subsystem.
+    Intake intake; //!< Intake subsystem.
     Compressor compressor;
 
 };
