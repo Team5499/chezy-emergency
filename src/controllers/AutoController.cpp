@@ -20,7 +20,9 @@ AutoController::AutoController()
         }
     }
     
-    currStep = 0;
+    nextStep = 0;
+    nextStepTime = routine[0][0];
+    
     
     left = 0.0; 
     right = 0.0;
@@ -40,13 +42,17 @@ AutoController::AutoController()
 void AutoController::handle(SlothRobot* bot)
 {
     double time = autoTimer.Get(); //!< How much time has passed since Autonomous started.
-    if (time >= routine[currStep][0]) { // If the elapsed time is greater than the starting time for the "next" step:
-        currStep++; // OK, we're on the next step now, so we can get ready for the next one.
+    if (time >= nextStepTime) { // If the elapsed time is greater than the starting time for the "next" step:
         // Check the routine for this step.
-        left = routine[currStep][1];
-        right = routine[currStep][2];
-        arm = routine[currStep][3];
-        roller = routine[currStep][4];
+        left = routine[nextStep][1];
+        right = routine[nextStep][2];
+        arm = routine[nextStep][3];
+        roller = routine[nextStep][4];
+
+        nextStep++; // OK, we're on the next step now, so we can get ready for the next one.
+        nextStepTime = routine[nextStep][0];
+        
+        
     }
     // Set the motors on every tick. 
     bot->drivetrain.DriveLR(left, right);

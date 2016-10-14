@@ -9,7 +9,8 @@ private:
     Timer autoTimer; //!< Timer to keep track of when to turn/shoot/whatever.
 
     double routine[5][1+4]; //!< 2D Array to store the routine. 1+4 rows because 4 outputs and 1 timestamp.
-    int currStep; //!< The next step to execute.
+    int nextStep; //!< The next step to execute.
+    int nextStepTime; //!< Time to execute next step. Stored in this variable for optimization.
 
     double left; //!< Speed of left wheels for the current step.
     double right; //!< Speed of right wheels for the current step.
