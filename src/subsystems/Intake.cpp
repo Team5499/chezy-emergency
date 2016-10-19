@@ -6,7 +6,7 @@
 Intake::Intake()
     :
     arm(10),
-    roller(9)
+    roller(11)
 {
 }
 //! Set the turn speed of the pivot arm.

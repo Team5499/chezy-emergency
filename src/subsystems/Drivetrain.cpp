@@ -5,10 +5,10 @@
 //! This initializes the hardware references for our wheels and shifting.
 Drivetrain::Drivetrain()
     :
-    driveLeft1(6),
-    driveLeft2(7),
-    driveRight1(4),
-    driveRight2(5),
+    driveLeft1(1),
+    driveLeft2(2),
+    driveRight1(3),
+    driveRight2(4),
     shiftLeft(0, 1),
     shiftRight(2, 3)
 {
@@ -21,8 +21,8 @@ Drivetrain::Drivetrain()
 */
 void Drivetrain::DriveLR(double left, double right)
 {
-    driveLeft1.Set(left);
-    driveLeft2.Set(left);
+    driveLeft1.Set(-1 * left);
+    driveLeft2.Set(-1 * left);
     driveRight1.Set(right);
     driveRight2.Set(right);
 }
@@ -33,6 +33,7 @@ void Drivetrain::DriveLR(double left, double right)
 */
 void Drivetrain::Shift(ShiftState state)
 {
+    return;
     switch(state)
     {
         case ShiftState::HIGH:

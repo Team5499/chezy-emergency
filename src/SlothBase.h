@@ -22,5 +22,8 @@ public:
     
     void AutonomousInit() override;
     void AutonomousPeriodic() override;
+
+    void TestInit() override;
+    void TestPeriodic() override;
     
 };
