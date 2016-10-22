@@ -1,8 +1,13 @@
 # Don't keep docs, CMAKE, or makefiles.
-./docs/
-./Doxyfile
+docs/
+Doxyfile
 
-./CMakeFiles/
-./CMakeCache.txt
-
-./Makefile
+CMakeFiles/
+CMakeCache.txt
+Makefile
+# Don't commit IDE Settings
+.vscode/
+# Don't commit travis files
+test/
+# Don't commit actual binary
+chezy-emergency

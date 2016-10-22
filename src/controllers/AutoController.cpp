@@ -10,10 +10,10 @@ AutoController::AutoController()
     int rL = 5; //!< Number of steps in the routine.
     double r[rL][5] = {
         {0.0, 0.0, 0.0, 0.0, 0.0},
-        {0.5, 0.5, 0.5, 0.0, 0.0},
-        {3.0, 0.0, 0.1, 0.0, 0.0},
-        {5.0, 0.8, 0.8, 0.0, 0.0},
-        {8.0, 0.0, 0.0, 0.0, 0.1},
+        {0.5, 1.0, 1.0, 0.0, 0.0},
+        {5.5, 0.0, 0.0, 0.0, 0.0},
+        {5.6, -1,  -1,  0.0, 0.0},
+        {10.6, 0.0, 0.0, 0.0, 0.0},
     };
     for (int x=0; x<rL; x++) {
         for (int y=0; y<5; y++) {
@@ -45,8 +45,10 @@ AutoController::AutoController()
 void AutoController::handle(SlothRobot* bot)
 {
     double time = autoTimer.Get(); //!< How much time has passed since Autonomous started.
+    if (nextStep == 0) {
+        bot->drivetrain.Shift(Drivetrain::ShiftState::LOW);
+    }
     if (time >= nextStepTime && !finished) { // If the elapsed time is greater than the starting time for the "next" step:
-        
         
         // Check the routine for this step.
         left = routine[nextStep][1];
@@ -84,6 +86,7 @@ void AutoController::handle(SlothRobot* bot)
 void AutoController::start() 
 {
     autoTimer.Start();
+    
 }
 
 void AutoController::resetRoutine()
