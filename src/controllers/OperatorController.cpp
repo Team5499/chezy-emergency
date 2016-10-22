@@ -41,9 +41,9 @@ void OperatorController::handle(SlothRobot* bot)
 
     /* Intake */
     double intakearm = op.GetRawAxis(1);
-    if (abs(intakearm) > 0.1)
+    if (abs(intakearm) > 0.08)
     {
-        bot->intake.SetArm((intakearm/2.0));
+        bot->intake.SetArm((intakearm/1.5));
     } else {
         bot->intake.SetArm(0.0);
     }

@@ -9,8 +9,8 @@ Drivetrain::Drivetrain()
     driveLeft2(2),
     driveRight1(3),
     driveRight2(4),
-    shiftLeft(0, 1),
-    shiftRight(2, 3)
+    shiftLeft(4, 5),
+    shiftRight(6, 7)
 {
 }
 
@@ -33,7 +33,7 @@ void Drivetrain::DriveLR(double left, double right)
 */
 void Drivetrain::Shift(ShiftState state)
 {
-    return;
+    
     switch(state)
     {
         case ShiftState::HIGH:

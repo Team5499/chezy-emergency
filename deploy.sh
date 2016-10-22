@@ -34,8 +34,7 @@ if [[ $? -eq 0 ]]; then
 fi
 P1=${TEAM_NUMBER:0:2}
 P2=${TEAM_NUMBER:2:2}
-TARGET="10.$P1.$P2.2"
-TARGET="169.254.134.44"
+TARGET="10.$P1.$P2.103"
 echo "Not found - probing for $TARGET..."
 ping $TARGET -c 1 &> /dev/null
 if [[ $? -eq 0 ]]; then
