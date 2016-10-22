@@ -41,13 +41,8 @@ void OperatorController::handle(SlothRobot* bot)
 
     /* Intake */
     double intakearm = op.GetRawAxis(1);
-    if (abs(intakearm) > 0.08)
-    {
-        bot->intake.SetArm((intakearm/1.5));
-    } else {
-        bot->intake.SetArm(0.0);
-    }
-    SmartDashboard::PutNumber("Intake Arm", intakearm);
+    bot->intake.SetArm(intakearm);
+    
     if(op.GetRawButton(4))
     {
         bot->intake.SetRoller(1);

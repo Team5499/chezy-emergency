@@ -8,17 +8,20 @@ AutoController::AutoController()
     finished(false)
 {
     
-    double r[rL][5] = {
+    double r[rL][5] = 
+    {
         // Stamp Left Right Arm Roller
         {0.0, 0.0, 0.0, 0.0, 0.0},
-        {0.2, 0.0, 0.0, -0.7, 0.0},
-        {1.0, 1.0, 1.0, 0.0, 0.0},
-        {4.5, 0.5, 0.5, 0.0, 0.0},
-        {4.9, 0.25, 0.25, 0.0, 0.0},
-        {5.0, 0.0, 0.0, 0.0, 0.0},
+        {0.2, 0.0, 0.0, -0.35, 0.0},
+        {1.0, -1.0, -1.0, 0.0, 0.0},
+        {4.5, -0.5, -0.5, 0.0, 0.0},
+        {4.6, -0.25, -0.25, 0.0, 0.0},
+        {4.7, -0.0, -0.0, 0.0, 0.0},
     };
-    for (int x=0; x<rL; x++) {
-        for (int y=0; y<5; y++) {
+    for (int x=0; x<rL; x++) 
+    {
+        for (int y=0; y<5; y++) 
+        {
             routine[x][y]=r[x][y];
         }
     }
@@ -47,10 +50,12 @@ AutoController::AutoController()
 void AutoController::handle(SlothRobot* bot)
 {
     double time = autoTimer.Get(); //!< How much time has passed since Autonomous started.
-    if (nextStep == 0) {
+    if (nextStep == 0)
+    {
         bot->drivetrain.Shift(Drivetrain::ShiftState::LOW);
     }
-    if (time >= nextStepTime && !finished) { // If the elapsed time is greater than the starting time for the "next" step:
+    if (time >= nextStepTime && !finished)
+    { // If the elapsed time is greater than the starting time for the "next" step:
         
         // Check the routine for this step.
         left = routine[nextStep][1];
@@ -59,9 +64,11 @@ void AutoController::handle(SlothRobot* bot)
         roller = routine[nextStep][4];
 
         nextStep++; // OK, we're on the next step now, so we can get ready for the next one.
-        if (nextStep==6) {
+        if (nextStep==6)
+        {
             finished = true;
-        } else {
+        } else 
+        {
             nextStepTime = routine[nextStep][0];
         }
     }
