@@ -7,13 +7,15 @@ AutoController::AutoController()
     autoTimer(),
     finished(false)
 {
-    int rL = 5; //!< Number of steps in the routine.
+    
     double r[rL][5] = {
+        // Stamp Left Right Arm Roller
         {0.0, 0.0, 0.0, 0.0, 0.0},
-        {0.5, 1.0, 1.0, 0.0, 0.0},
-        {5.5, 0.0, 0.0, 0.0, 0.0},
-        {5.6, -1,  -1,  0.0, 0.0},
-        {10.6, 0.0, 0.0, 0.0, 0.0},
+        {0.2, 0.0, 0.0, -0.7, 0.0},
+        {1.0, 1.0, 1.0, 0.0, 0.0},
+        {4.5, 0.5, 0.5, 0.0, 0.0},
+        {4.9, 0.25, 0.25, 0.0, 0.0},
+        {5.0, 0.0, 0.0, 0.0, 0.0},
     };
     for (int x=0; x<rL; x++) {
         for (int y=0; y<5; y++) {
@@ -57,7 +59,7 @@ void AutoController::handle(SlothRobot* bot)
         roller = routine[nextStep][4];
 
         nextStep++; // OK, we're on the next step now, so we can get ready for the next one.
-        if (nextStep==5) {
+        if (nextStep==6) {
             finished = true;
         } else {
             nextStepTime = routine[nextStep][0];
