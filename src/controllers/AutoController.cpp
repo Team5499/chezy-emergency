@@ -12,11 +12,11 @@ AutoController::AutoController()
     {
         // Stamp Left Right Arm Roller
         {0.0, 0.0, 0.0, 0.0, 0.0},
-        {0.2, 0.0, 0.0, -0.35, 0.0},
+        {0.2, 0.0, 0.0, -0.5, 0.0},
         {1.0, -1.0, -1.0, 0.0, 0.0},
-        {4.5, -0.5, -0.5, 0.0, 0.0},
-        {4.6, -0.25, -0.25, 0.0, 0.0},
-        {4.7, -0.0, -0.0, 0.0, 0.0},
+        {5.5, -0.25, -0.25, 0.0, 0.0},
+        {5.6, -0.125, -0.125, 0.0, 0.0},
+        {5.7, -0.0, -0.0, 0.0, 0.0},
     };
     for (int x=0; x<rL; x++) 
     {
@@ -64,9 +64,10 @@ void AutoController::handle(SlothRobot* bot)
         roller = routine[nextStep][4];
 
         nextStep++; // OK, we're on the next step now, so we can get ready for the next one.
-        if (nextStep==6)
+        if (nextStep==rL)
         {
             finished = true;
+            
         } else 
         {
             nextStepTime = routine[nextStep][0];
@@ -77,15 +78,7 @@ void AutoController::handle(SlothRobot* bot)
     bot->intake.SetArm(arm);
     bot->intake.SetRoller(roller);
 
-    SmartDashboard::PutNumber("Left Wheel", left);
-    SmartDashboard::PutNumber("Right Wheel", right);
 
-    SmartDashboard::PutNumber("Roller", roller);
-    SmartDashboard::PutNumber("Arm", arm);
-
-    SmartDashboard::PutNumber("Current Step", nextStep-1);
-    SmartDashboard::PutNumber("Current Time", time);
-    SmartDashboard::PutNumber("Next Step Time", nextStepTime);
     // TODO: Update PID. (Requires sensors)
     
 }

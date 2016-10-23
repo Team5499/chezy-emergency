@@ -2,7 +2,6 @@
 #include <WPILib.h>
 #include "subsystems/Drivetrain.h"
 #include "subsystems/Intake.h"
-#include <iostream>
 
 class SlothRobot
 {

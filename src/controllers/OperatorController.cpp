@@ -41,7 +41,7 @@ void OperatorController::handle(SlothRobot* bot)
 
     /* Intake */
     double intakearm = op.GetRawAxis(1);
-    bot->intake.SetArm(intakearm);
+    bot->intake.SetArm(intakearm/1.25);
     
     if(op.GetRawButton(4))
     {

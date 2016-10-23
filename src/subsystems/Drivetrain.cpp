@@ -11,6 +11,7 @@ Drivetrain::Drivetrain()
     driveRight2(4),
     shiftLeft(4, 5),
     shiftRight(6, 7)
+    
 {
 }
 
@@ -37,10 +38,12 @@ void Drivetrain::Shift(ShiftState state)
     switch(state)
     {
         case ShiftState::HIGH:
+            SmartDashboard::PutString("Shift State", "HIGH");
             shiftLeft.Set(DoubleSolenoid::Value::kForward);
             shiftRight.Set(DoubleSolenoid::Value::kForward);
         break;
         case ShiftState::LOW:
+            SmartDashboard::PutString("Shift State", "LOW");
             shiftLeft.Set(DoubleSolenoid::Value::kReverse);
             shiftRight.Set(DoubleSolenoid::Value::kReverse);
         break;

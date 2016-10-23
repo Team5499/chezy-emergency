@@ -10,31 +10,27 @@ echo "Probing for $TARGET..."
 
 #ssh "$USER@$TARGET" true &> /dev/null
 
-PROGRAM=$(sed 's/C:/\/c/g' <<< $PROGRAM)
-PROGRAM=$(sed 's/\\/\//g' <<< $PROGRAM)
 
-ROBOTCOMMAND=$(sed 's/C:/\/c/g' <<< $ROBOTCOMMAND)
-ROBOTCOMMAND=$(sed 's/\\/\//g' <<< $ROBOTCOMMAND)
-ping $TARGET &> /dev/null
-if [[ $? -eq 0 ]]; then
-    echo "Removing old program..."
-    ssh "$TARGET_USER@$TARGET" "rm -f $TARGET_DIR/FRCUserProgram"
-    echo "Copying over new program..."
-    scp "$PROGRAM" "$TARGET_USER@$TARGET:$TARGET_DIR/FRCUserProgram"
-    echo "Stoping netconsole-host..."
-    ssh "$TARGET_USER@$TARGET" "killall -q netconsole-host || :"
-    echo "Copying over robotCommand..." 
-    scp "$ROBOTCOMMAND" "$TARGET_USER@$TARGET:$TARGET_DIR"
-    echo "Cleaning up..."
-    ssh "$TARGET_USER@$TARGET" ". /etc/profile.d/natinst-path.sh;
-                              chmod a+x $TARGET_DIR/FRCUserProgram;
-                              /usr/local/frc/bin/frcKillRobot.sh -t -r;
-                              sync"
-    exit
-fi
+#ping $TARGET &> /dev/null
+#if [[ $? -eq 0 ]]; then
+#    echo "Removing old program..."
+#    ssh "$TARGET_USER@$TARGET" "rm -f $TARGET_DIR/FRCUserProgram"
+#    echo "Copying over new program..."
+#    scp "$PROGRAM" "$TARGET_USER@$TARGET:$TARGET_DIR/FRCUserProgram"
+#    echo "Stoping netconsole-host..."
+#    ssh "$TARGET_USER@$TARGET" "killall -q netconsole-host || :"
+#    echo "Copying over robotCommand..." 
+#    scp "$ROBOTCOMMAND" "$TARGET_USER@$TARGET:$TARGET_DIR"
+#    echo "Cleaning up..."
+#    ssh "$TARGET_USER@$TARGET" ". /etc/profile.d/natinst-path.sh;
+#                              chmod a+x $TARGET_DIR/FRCUserProgram;
+#                              /usr/local/frc/bin/frcKillRobot.sh -t -r;
+#                              sync"
+#    exit
+#fi
 P1=${TEAM_NUMBER:0:2}
 P2=${TEAM_NUMBER:2:2}
-TARGET="10.$P1.$P2.103"
+TARGET="10.$P1.$P2.2"
 echo "Not found - probing for $TARGET..."
 ping $TARGET -c 1 &> /dev/null
 if [[ $? -eq 0 ]]; then
