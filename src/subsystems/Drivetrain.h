@@ -18,6 +18,7 @@ public:
         LOW
     } ShiftState;
 
+    ShiftState currentState;
     Drivetrain();
     void DriveLR(double left, double right);
     void Shift(ShiftState state);

@@ -10,7 +10,8 @@ Drivetrain::Drivetrain()
     driveRight1(3),
     driveRight2(4),
     shiftLeft(4, 5),
-    shiftRight(6, 7)
+    shiftRight(6, 7),
+    currentState(ShiftState::LOW)
     
 {
     std::cout << "Drivetrain initialized!" << std::endl;
@@ -35,16 +36,20 @@ void Drivetrain::DriveLR(double left, double right)
 */
 void Drivetrain::Shift(ShiftState state)
 {
-    
+    // Only log when we change shift state
+    std::string newState = state==ShiftState::HIGH ? "HIGH" : "LOW";
+    if (state != currentState) {
+        std::cout << "Shifting into " << newState  << std::endl;
+    }
+    currentState = state;
+
     switch(state)
     {
         case ShiftState::HIGH:
-            std::cout << "Attempting to shift into HIGH gear." << std::endl;
             shiftLeft.Set(DoubleSolenoid::Value::kForward);
             shiftRight.Set(DoubleSolenoid::Value::kForward);
         break;
         case ShiftState::LOW:
-            std::cout << "Attempting to shift into LOW gear." << std::endl;
             shiftLeft.Set(DoubleSolenoid::Value::kReverse);
             shiftRight.Set(DoubleSolenoid::Value::kReverse);
         break;
