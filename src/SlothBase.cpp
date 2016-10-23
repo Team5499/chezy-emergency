@@ -6,7 +6,7 @@ SlothBase::SlothBase()
     operatorController(),
     autoController()
 {
-    std::cout << "Constructed a SlothBase!" << std::endl;
+    std::cout << "Iterative Robot Framework initialized." << std::endl;
 }
 
 // Autonomous Methods
@@ -37,4 +37,5 @@ void SlothBase::TestPeriodic()
 {
 
 }
+
 START_ROBOT_CLASS(SlothBase)

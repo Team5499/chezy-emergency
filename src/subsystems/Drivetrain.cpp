@@ -13,6 +13,7 @@ Drivetrain::Drivetrain()
     shiftRight(6, 7)
     
 {
+    std::cout << "Drivetrain initialized!" << std::endl;
 }
 
 //! Set the motors for the right and left wheels.
@@ -38,12 +39,12 @@ void Drivetrain::Shift(ShiftState state)
     switch(state)
     {
         case ShiftState::HIGH:
-            SmartDashboard::PutString("Shift State", "HIGH");
+            std::cout << "Attempting to shift into HIGH gear." << std::endl;
             shiftLeft.Set(DoubleSolenoid::Value::kForward);
             shiftRight.Set(DoubleSolenoid::Value::kForward);
         break;
         case ShiftState::LOW:
-            SmartDashboard::PutString("Shift State", "LOW");
+            std::cout << "Attempting to shift into LOW gear." << std::endl;
             shiftLeft.Set(DoubleSolenoid::Value::kReverse);
             shiftRight.Set(DoubleSolenoid::Value::kReverse);
         break;

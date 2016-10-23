@@ -8,6 +8,7 @@ Intake::Intake()
     arm(10),
     roller(11)
 {
+    std::cout << "Intake initialized!" << std::endl;
 }
 //! Set the turn speed of the pivot arm.
 /**

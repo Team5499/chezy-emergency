@@ -18,6 +18,7 @@ AutoController::AutoController()
         {5.6, -0.125, -0.125, 0.0, 0.0},
         {5.7, -0.0, -0.0, 0.0, 0.0},
     };
+    
     for (int x=0; x<rL; x++) 
     {
         for (int y=0; y<5; y++) 
@@ -25,17 +26,12 @@ AutoController::AutoController()
             routine[x][y]=r[x][y];
         }
     }
-    
-    nextStep = 0;
-    nextStepTime = routine[0][0];
-    
-    
-    left = 0.0; 
-    right = 0.0;
-    arm = 0.0;
-    roller = 0.0;
+    std::cout << "Successfully loaded Auto routine." << std::endl;
+
+    resetRoutine();
 
     SmartDashboard::init();
+    std::cout << "Initialized Autonomous Controller." << std::endl;
 }
 
 //! Autonomously handle the robot.
@@ -67,6 +63,7 @@ void AutoController::handle(SlothRobot* bot)
         if (nextStep==rL)
         {
             finished = true;
+            std::cout << "Autonomous Routine complete." << std::endl;
             
         } else 
         {
@@ -82,13 +79,12 @@ void AutoController::handle(SlothRobot* bot)
     // TODO: Update PID. (Requires sensors)
     
 }
-//! Start timing.
-
 //! This will be called at AutonomousInit(), so that we can keep track of what we have to do.
 void AutoController::start() 
 {
     autoTimer.Start();
-    
+    resetRoutine();
+    std::cout << "Starting Autonomous Control." << std::endl;
 }
 
 void AutoController::resetRoutine()

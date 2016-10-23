@@ -2,6 +2,7 @@
 #include "../SlothRobot.h"
 #include "GenericController.h"
 #include <WPILib.h>
+#include <iostream>
 
 class AutoController : public GenericController
 {

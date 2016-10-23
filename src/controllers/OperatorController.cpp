@@ -7,6 +7,7 @@ OperatorController::OperatorController()
     throttle(1),
     op(2)
 {
+    std::cout << "Initialized Operator Controller." << std::endl;
 }
 //! Handle the robot based on Operator controls.
 /**
@@ -61,5 +62,5 @@ void OperatorController::handle(SlothRobot* bot)
 //! Boilerplate.
 void OperatorController::start()
 {
-    
+    std::cout << "Starting Operator Control." << std::endl;
 }

@@ -7,5 +7,4 @@ SlothRobot::SlothRobot()
     intake(),
     compressor()
 {
-    std::cout << "Constructed a SlothRobot!" << std::endl;
 }
