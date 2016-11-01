@@ -4,6 +4,7 @@ Doxyfile
 
 CMakeFiles/
 CMakeCache.txt
+cmake_install.cmake
 Makefile
 # Don't commit IDE Settings
 .vscode/

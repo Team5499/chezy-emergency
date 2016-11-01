@@ -9,7 +9,7 @@ class AutoPIDController : public GenericController
 private:
 
     // Sensors
-    AnalogGyro gyro; //!< Central gyroscope.
+    ADXRS450_Gyro gyro; //!< Central gyroscope.
     Encoder lEncoder; //!< Encoder on left wheel.
     Encoder rEncoder; //!< Encoder on right wheel.
 
