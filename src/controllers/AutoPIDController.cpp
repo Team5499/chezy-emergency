@@ -15,16 +15,9 @@ AutoPIDController::AutoPIDController()
     kPd(0.1),
     kId(0.0),
     kDd(0.0),
-
-    // Motor PID constants
-    kPw(0.1),
-    kIw(0.0),
-    kDw(0.0),
     
     aController(kPa, kIa, kDa, &gyro, 0),
-    dController(kPd, kId, kDd, &lEncoder, 0), // Distance controller should take input from an arbitrary wheel
-    wlController(kPw, kIw, kDw, &lEncoder, 0),
-    wrController(kPw, kIw, kDw, &rEncoder, 0),
+    dController(kPd, kId, kDd, &lEncoder, 0), // Distance controller should take input from an arbitrary wheel?
     stepZeroDistance(10),
     stepOneAngle(7.0),
     stepTwoDistance(8)
@@ -32,8 +25,6 @@ AutoPIDController::AutoPIDController()
 {
     aController.SetPIDSourceType(PIDSourceType::kDisplacement); // Control angle, not angular velocity
     dController.SetPIDSourceType(PIDSourceType::kDisplacement); // Control distance, not velocity.
-    wlController.SetPIDSourceType(PIDSourceType::kRate); // Control turning rate
-    wrController.SetPIDSourceType(PIDSourceType::kRate); // Control turning rate.
 
     aController.SetContinuous(true);
     dController.SetContinuous(false);
@@ -50,12 +41,10 @@ AutoPIDController::AutoPIDController()
 */
 void AutoPIDController::handle(SlothRobot* bot)
 {
-    float speed = dController.Get(); //!< The base speed of the robot wheels
-    float angle = aController.Get(); //!< The difference in wheel speeds between left and right.
-    wlController.SetSetpoint(speed+angle);
-    wrController.SetSetpoint(speed-angle);
-    // TODO: May need to reverse direction of error correction.
-    bot->drivetrain.DriveLR(speed+angle+wlController.Get(), speed-angle+wrController.Get());
+    float speed = dController.Get(); //!< The desired base speed of the robot wheels.
+    float angle = aController.Get(); //!< The difference in desired wheel speeds between left and right.
+    
+    bot->drivetrain.DriveLR(speed+angle, speed-angle);
     
 }
 //! This will be called at AutonomousInit(), so that we can keep track of what we have to do.
@@ -67,8 +56,6 @@ void AutoPIDController::start()
 
     aController.Enable();
     dController.Enable();
-    wlController.Enable();
-    wrController.Enable();
 
     std::cout << "Starting Autonomous Control." << std::endl;
 }

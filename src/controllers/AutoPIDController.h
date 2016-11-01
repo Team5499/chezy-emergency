@@ -21,16 +21,10 @@ private:
     const float kPd; //!< Proportional constant for distance.
     const float kId; //!< Integral constant for distance.
     const float kDd; //!< Derivative constant for distance.
-
-    const float kPw; //!< Proportional constant for wheel correction.
-    const float kIw; //!< Integral constant for wheel correction.
-    const float kDw; //!< Derivative constant for wheel correction.
     
     // PID Controllers
     PIDController aController; //!< PIDController for angle.
     PIDController dController; //!< PIDController for distance.
-    PIDController wlController; //!< PIDController for left wheel.
-    PIDController wrController; //!< PIDController for right wheel.
 
 public:
 
