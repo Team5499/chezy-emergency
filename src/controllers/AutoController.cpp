@@ -41,7 +41,6 @@ AutoController::AutoController()
 * Current autonomous plan is to put the shooter down,
 * Go under the low bar, turn, and push a ball into the low goal.
 * @param bot The Robot to control.
-* @todo run experiments to determine how exact timings for autonomous.
 */
 void AutoController::handle(SlothRobot* bot)
 {
