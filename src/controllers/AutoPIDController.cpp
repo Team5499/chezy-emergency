@@ -10,22 +10,23 @@ AutoPIDController::AutoPIDController()
     kPa(0.005),
     kIa(0.0001),
     kDa(0.0),
+    kEa(1),
 
     // Distance PID constants
     kPd(0.005),
     kId(0.0),
     kDd(0.0),
-    
-    stepZeroDistance(-800),
-    stepOneAngle(7.0),
-    stepTwoDistance(8),
+    kEd(10),
+
+    step(0),    
+    stepZeroDistance(800),
+    stepOneAngle(30),
+    stepTwoDistance(700),
     
     speedOut(),
     angleOut(),
-
     aController(kPa, kIa, kDa, &gyro, &angleOut),
     dController(kPd, kId, kDd, &lEncoder, &speedOut)
-    
 
 {
     aController.SetPIDSourceType(PIDSourceType::kDisplacement); // Control angle, not angular velocity
@@ -34,6 +35,7 @@ AutoPIDController::AutoPIDController()
     aController.SetContinuous(true);
     dController.SetContinuous(false);
 
+    lEncoder.SetReverseDirection(false); // Left encoder went negative?
 
     gyro.Calibrate();
 }
@@ -47,10 +49,36 @@ AutoPIDController::AutoPIDController()
 */
 void AutoPIDController::handle(SlothRobot* bot)
 {
+    /* 
+    This is fairly dirty, we need to talk about better solutions for 2017.
+    If anyone has a better idea, please tell me because I hate this.
+    */
+    if (abs(dController.GetError())<kEd && abs(aController.GetError())<kEa) {
+        // If we're within acceptable bounds for both angle and distance
+        step++;
+
+        if (step == 1) 
+        {
+            
+            dController.SetSetpoint(0); 
+            aController.SetSetpoint(stepOneAngle);
+        }
+        if (step == 2) 
+        {
+            dController.SetSetpoint(stepTwoDistance);
+            aController.SetSetpoint(0);
+        }
+        if (step == 3) 
+        {
+            dController.Disable();
+            aController.Disable();
+            bot->intake.SetRoller(1);
+        }
+    }
+    
+
     double speed = speedOut.getOut(); //!< The desired base speed of the robot wheels.
     double angle = angleOut.getOut(); //!< The difference in desired wheel speeds between left and right.
-    
-    speed = 0;
 
     SmartDashboard::PutNumber("Speed", speed);
     SmartDashboard::PutNumber("Angle", angle);
@@ -65,7 +93,7 @@ void AutoPIDController::handle(SlothRobot* bot)
 void AutoPIDController::start()
 {
     
-    aController.SetSetpoint(90.0);
+    aController.SetSetpoint(0.0);
     dController.SetSetpoint(stepZeroDistance);
     aController.Enable();
     dController.Enable();

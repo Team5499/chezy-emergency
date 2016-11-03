@@ -24,10 +24,14 @@ Drivetrain::Drivetrain()
 */
 void Drivetrain::DriveLR(double left, double right)
 {
-    driveLeft1.Set(-1 * left);
-    driveLeft2.Set(-1 * left);
-    driveRight1.Set(right);
-    driveRight2.Set(right);
+    double l = -1 * left;
+    double r = right;
+    // DO NOT EDIT BELOW THIS LINE
+    // OR YOU CAN DESTROY OUR GEARBOXES
+    driveLeft1.Set(l);
+    driveLeft2.Set(l);
+    driveRight1.Set(r);
+    driveRight2.Set(r);
 }
 
 //! Shift the drivetrain to HIGH or LOW.

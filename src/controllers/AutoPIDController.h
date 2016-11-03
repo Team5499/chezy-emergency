@@ -17,11 +17,14 @@ private:
     const float kPa; //!< Proportional constant for angle.
     const float kIa; //!< Integral constant for angle.
     const float kDa; //!< Derivative constant for angle.
+    const float kEa; //!< Acceptable absolute error to consider a turn complete.
     
     const float kPd; //!< Proportional constant for distance.
     const float kId; //!< Integral constant for distance.
     const float kDd; //!< Derivative constant for distance.
-    
+    const float kEd; //!< Acceptable absolute error to consider a distance drive complete.
+
+    int step; //!< Current step of routine.
 
 public:
 
