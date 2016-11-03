@@ -8,6 +8,7 @@ OperatorController::OperatorController()
     op(2)
 {
     std::cout << "Initialized Operator Controller." << std::endl;
+    
 }
 //! Handle the robot based on Operator controls.
 /**
@@ -16,6 +17,7 @@ OperatorController::OperatorController()
 */
 void OperatorController::handle(SlothRobot* bot)
 {
+
     /* Throttle / wheel control */
     double throttle_value = throttle.GetRawAxis(1); //!< Read throttle controls.
     double wheel_value = wheel.GetRawAxis(0); //!< Read 

@@ -2,7 +2,7 @@
 #include <WPILib.h>
 #include "SlothRobot.h"
 #include "controllers/OperatorController.h"
-#include "controllers/AutoController.h"
+#include "controllers/AutoPIDController.h"
 #include <iostream>
 
 class SlothBase : public IterativeRobot
@@ -10,7 +10,7 @@ class SlothBase : public IterativeRobot
 private:
     SlothRobot bot;
     OperatorController operatorController;
-    AutoController autoController;
+    AutoPIDController autoController;
     
 public:
     SlothBase();

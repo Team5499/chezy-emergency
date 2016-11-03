@@ -12,7 +12,6 @@ SlothBase::SlothBase()
 // Autonomous Methods
 void SlothBase::AutonomousInit()
 {
-    autoController.resetRoutine();
     autoController.start();
 }
 void SlothBase::AutonomousPeriodic()

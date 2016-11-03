@@ -3,24 +3,29 @@
 AutoPIDController::AutoPIDController()
     :
     gyro(),
-    lEncoder(1, 2),
-    rEncoder(3, 4),
+    lEncoder(0, 1),
+    rEncoder(2, 3),
 
     // Angular PID constants
-    kPa(0.1),
-    kIa(0.0),
+    kPa(0.005),
+    kIa(0.0001),
     kDa(0.0),
 
     // Distance PID constants
-    kPd(0.1),
+    kPd(0.005),
     kId(0.0),
     kDd(0.0),
     
-    aController(kPa, kIa, kDa, &gyro, 0),
-    dController(kPd, kId, kDd, &lEncoder, 0), // Distance controller should take input from an arbitrary wheel?
-    stepZeroDistance(10),
+    stepZeroDistance(-800),
     stepOneAngle(7.0),
-    stepTwoDistance(8)
+    stepTwoDistance(8),
+    
+    speedOut(),
+    angleOut(),
+
+    aController(kPa, kIa, kDa, &gyro, &angleOut),
+    dController(kPd, kId, kDd, &lEncoder, &speedOut)
+    
 
 {
     aController.SetPIDSourceType(PIDSourceType::kDisplacement); // Control angle, not angular velocity
@@ -28,6 +33,7 @@ AutoPIDController::AutoPIDController()
 
     aController.SetContinuous(true);
     dController.SetContinuous(false);
+
 
     gyro.Calibrate();
 }
@@ -41,8 +47,16 @@ AutoPIDController::AutoPIDController()
 */
 void AutoPIDController::handle(SlothRobot* bot)
 {
-    float speed = dController.Get(); //!< The desired base speed of the robot wheels.
-    float angle = aController.Get(); //!< The difference in desired wheel speeds between left and right.
+    double speed = speedOut.getOut(); //!< The desired base speed of the robot wheels.
+    double angle = angleOut.getOut(); //!< The difference in desired wheel speeds between left and right.
+    
+    speed = 0;
+
+    SmartDashboard::PutNumber("Speed", speed);
+    SmartDashboard::PutNumber("Angle", angle);
+
+    SmartDashboard::PutNumber("Distance Error", dController.GetError());
+    SmartDashboard::PutNumber("Angle Error", aController.GetError());
     
     bot->drivetrain.DriveLR(speed+angle, speed-angle);
     
@@ -51,11 +65,12 @@ void AutoPIDController::handle(SlothRobot* bot)
 void AutoPIDController::start()
 {
     
-    aController.SetSetpoint(0.0);
+    aController.SetSetpoint(90.0);
     dController.SetSetpoint(stepZeroDistance);
-
     aController.Enable();
     dController.Enable();
+
+    gyro.Reset();
 
     std::cout << "Starting Autonomous Control." << std::endl;
 }

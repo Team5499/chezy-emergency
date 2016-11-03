@@ -2,7 +2,7 @@
 #include "../SlothRobot.h"
 #include "GenericController.h"
 #include <WPILib.h>
-#include <iostream>
+#include "../ManualPIDOut.h"
 
 class AutoPIDController : public GenericController
 {
@@ -22,9 +22,6 @@ private:
     const float kId; //!< Integral constant for distance.
     const float kDd; //!< Derivative constant for distance.
     
-    // PID Controllers
-    PIDController aController; //!< PIDController for angle.
-    PIDController dController; //!< PIDController for distance.
 
 public:
 
@@ -33,7 +30,15 @@ public:
     float stepOneAngle; //!< Angle (in degrees) to turn towards goal.
     float stepTwoDistance; //!< Distance (in inches?) from turning point to goal-shooting point.
 
+    ManualPIDOut speedOut; //!< Interface for recieving Manual Output from distance PID.
+    ManualPIDOut angleOut; //!< Interface for receieving Manual Output from angle PID.
+
+    // PID Controllers
+    PIDController aController; //!< PIDController for angle.
+    PIDController dController; //!< PIDController for distance.
+
     AutoPIDController();
     void handle(SlothRobot* bot);
     void start();
+
 };
