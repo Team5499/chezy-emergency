@@ -68,9 +68,9 @@ void AutoPIDController::handle(SlothRobot* bot)
             dController.SetSetpoint(stepZeroDistance);
             aController.Enable();
             dController.Enable();
-
     
         }
+        return;
     }
     if (abs(dController.GetError())<kEd && abs(aController.GetError())<kEa) {
         // If we're within acceptable bounds for both angle and distance
