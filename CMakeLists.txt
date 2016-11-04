@@ -16,7 +16,7 @@ set(SOURCE_FILES src/SlothBase.cpp
                  src/SlothRobot.cpp
                  src/subsystems/Drivetrain.cpp
                  src/subsystems/Intake.cpp
-                 src/ManualPIDOut.cpp
+                 
 		 src/controllers/OperatorController.cpp
 		 src/controllers/AutoController.cpp
          src/controllers/AutoPIDController.cpp

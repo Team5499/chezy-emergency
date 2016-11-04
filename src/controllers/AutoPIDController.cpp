@@ -5,6 +5,7 @@ AutoPIDController::AutoPIDController()
     gyro(),
     lEncoder(0, 1),
     rEncoder(2, 3),
+    distance(&lEncoder, &rEncoder),
 
     // Angular PID constants
     kPa(0.005),
@@ -26,7 +27,7 @@ AutoPIDController::AutoPIDController()
     speedOut(),
     angleOut(),
     aController(kPa, kIa, kDa, &gyro, &angleOut),
-    dController(kPd, kId, kDd, &lEncoder, &speedOut)
+    dController(kPd, kId, kDd, &distance, &speedOut)
 
 {
     aController.SetPIDSourceType(PIDSourceType::kDisplacement); // Control angle, not angular velocity
@@ -56,11 +57,17 @@ void AutoPIDController::handle(SlothRobot* bot)
     if (abs(dController.GetError())<kEd && abs(aController.GetError())<kEa) {
         // If we're within acceptable bounds for both angle and distance
         step++;
+        // Zero the sensors
+        gyro.Reset();
+        lEncoder.Reset();
+        rEncoder.Reset();
 
         if (step == 1) 
         {
             
-            dController.SetSetpoint(0); 
+            dController.SetSetpoint(0);
+            // TODO: The dController needs an input source capable of giving average across both wheels
+            // or the robot will back up when it tries to turn.
             aController.SetSetpoint(stepOneAngle);
         }
         if (step == 2) 

@@ -2,7 +2,7 @@
 #include "../SlothRobot.h"
 #include "GenericController.h"
 #include <WPILib.h>
-#include "../ManualPIDOut.h"
+#include "../ManualPID.h"
 
 class AutoPIDController : public GenericController
 {
@@ -12,6 +12,7 @@ private:
     ADXRS450_Gyro gyro; //!< Central gyroscope.
     Encoder lEncoder; //!< Encoder on left wheel.
     Encoder rEncoder; //!< Encoder on right wheel.
+    TwoEncoders distance;
 
     // PID Constants
     const float kPa; //!< Proportional constant for angle.
