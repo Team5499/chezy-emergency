@@ -63,6 +63,13 @@ void AutoPIDController::handle(SlothRobot* bot)
             autoTimer.Stop();
             bot->intake.SetArm(0);
             step++;
+
+            aController.SetSetpoint(0.0);
+            dController.SetSetpoint(stepZeroDistance);
+            aController.Enable();
+            dController.Enable();
+
+    
         }
     }
     if (abs(dController.GetError())<kEd && abs(aController.GetError())<kEa) {
@@ -109,8 +116,7 @@ void AutoPIDController::handle(SlothRobot* bot)
 void AutoPIDController::start()
 {
     autoTimer.Start();
-
-    
+    gyro.Reset();
 
     std::cout << "Starting Autonomous Control." << std::endl;
 }
