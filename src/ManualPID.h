@@ -24,14 +24,19 @@ class ManualPIDOut : public PIDOutput
 class TwoEncoders : public PIDSource
 {
     private:
-        Encoder *l;
+        // Pointers to encoders owned by other classes
+        Encoder *l; 
         Encoder *r;
     protected:
         PIDSourceType m_pidSource = PIDSourceType::kDisplacement;
     public:
+        //! Get our source.
         PIDSourceType GetPIDSourceType() {return m_pidSource;}
-        void SetPIDSourceType(PIDSourceType pidSource) {l->SetPIDSourceType(pidSource);r->SetPIDSourceType(pidSource);}
+        //! Set the specified sourcetype for both of our encoders.
+        void SetPIDSourceType(PIDSourceType pidSource) {l->SetPIDSourceType(pidSource); r->SetPIDSourceType(pidSource);}
+        //! Return the average of both encoder values.
         double PIDGet() {return (l->PIDGet()+r->PIDGet())/2.0;}
+        //! Initialize both of our pointers to actual Encoder classes.
         TwoEncoders(Encoder* left, Encoder* right) {l = left; r = right;}
         
 };

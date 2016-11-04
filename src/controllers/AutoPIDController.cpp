@@ -2,6 +2,9 @@
 
 AutoPIDController::AutoPIDController()
     :
+    autoTimer(),
+
+    // Sensors & sensor managers
     gyro(),
     lEncoder(0, 1),
     rEncoder(2, 3),
@@ -19,7 +22,7 @@ AutoPIDController::AutoPIDController()
     kDd(0.0),
     kEd(10),
 
-    step(0),    
+    step(-1),    
     stepZeroDistance(800),
     stepOneAngle(30),
     stepTwoDistance(700),
@@ -49,11 +52,19 @@ AutoPIDController::AutoPIDController()
 * @param bot The Robot to control.
 */
 void AutoPIDController::handle(SlothRobot* bot)
-{
+{   
     /* 
     This is fairly dirty, we need to talk about better solutions for 2017.
     If anyone has a better idea, please tell me because I hate this.
     */
+    if (step == -1) {
+        bot->intake.SetArm(-0.55);
+        if (autoTimer.Get() > 0.8) {
+            autoTimer.Stop();
+            bot->intake.SetArm(0);
+            step++;
+        }
+    }
     if (abs(dController.GetError())<kEd && abs(aController.GetError())<kEa) {
         // If we're within acceptable bounds for both angle and distance
         step++;
@@ -62,20 +73,18 @@ void AutoPIDController::handle(SlothRobot* bot)
         lEncoder.Reset();
         rEncoder.Reset();
 
-        if (step == 1) 
+        if (step == 1)
         {
             
             dController.SetSetpoint(0);
-            // TODO: The dController needs an input source capable of giving average across both wheels
-            // or the robot will back up when it tries to turn.
             aController.SetSetpoint(stepOneAngle);
         }
-        if (step == 2) 
+        if (step == 2)
         {
             dController.SetSetpoint(stepTwoDistance);
             aController.SetSetpoint(0);
         }
-        if (step == 3) 
+        if (step == 3)
         {
             dController.Disable();
             aController.Disable();
@@ -99,13 +108,9 @@ void AutoPIDController::handle(SlothRobot* bot)
 //! This will be called at AutonomousInit(), so that we can keep track of what we have to do.
 void AutoPIDController::start()
 {
-    
-    aController.SetSetpoint(0.0);
-    dController.SetSetpoint(stepZeroDistance);
-    aController.Enable();
-    dController.Enable();
+    autoTimer.Start();
 
-    gyro.Reset();
+    
 
     std::cout << "Starting Autonomous Control." << std::endl;
 }

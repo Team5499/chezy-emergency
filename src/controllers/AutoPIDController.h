@@ -8,6 +8,8 @@ class AutoPIDController : public GenericController
 {
 private:
 
+    // Timer for first step:
+    Timer autoTimer;
     // Sensors
     ADXRS450_Gyro gyro; //!< Central gyroscope.
     Encoder lEncoder; //!< Encoder on left wheel.
