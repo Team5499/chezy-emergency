@@ -39,7 +39,7 @@ AutoPIDController::AutoPIDController()
     aController.SetContinuous(true);
     dController.SetContinuous(false);
 
-    lEncoder.SetReverseDirection(false); // Left encoder went negative?
+    rEncoder.SetReverseDirection(true); // Right encoder went negative?
 
     gyro.Calibrate();
 }
@@ -119,6 +119,8 @@ void AutoPIDController::start()
     autoTimer.Reset();
     autoTimer.Start();
     gyro.Reset();
+    lEncoder.Reset();
+    rEncoder.Reset();
 
     std::cout << "Starting Autonomous Control." << std::endl;
 }
