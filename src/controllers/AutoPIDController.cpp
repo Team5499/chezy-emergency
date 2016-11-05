@@ -11,7 +11,7 @@ AutoPIDController::AutoPIDController()
     distance(&lEncoder, &rEncoder),
 
     // Angular PID constants
-    kPa(0.005),
+    kPa(0.06),
     kIa(0.0001),
     kDa(0.0),
     kEa(1),
@@ -20,12 +20,12 @@ AutoPIDController::AutoPIDController()
     kPd(0.005),
     kId(0.0),
     kDd(0.0),
-    kEd(10),
+    kEd(18),
 
     step(-1),    
-    stepZeroDistance(800),
-    stepOneAngle(30),
-    stepTwoDistance(700),
+    stepZeroDistance(1698),
+    stepOneAngle(39),
+    stepTwoDistance(1210),
     
     speedOut(),
     angleOut(),
@@ -65,7 +65,7 @@ void AutoPIDController::handle(SlothRobot* bot)
             step++;
 
             aController.SetSetpoint(0.0);
-            dController.SetSetpoint(stepZeroDistance);
+            dController.SetSetpoint(stepZeroDistance); //Drive Straight
             aController.Enable();
             dController.Enable();
     
@@ -80,22 +80,21 @@ void AutoPIDController::handle(SlothRobot* bot)
         lEncoder.Reset();
         rEncoder.Reset();
 
-        if (step == 1)
+        if (step == 1) //Turn to angle
         {
-            
             dController.SetSetpoint(0);
             aController.SetSetpoint(stepOneAngle);
         }
-        if (step == 2)
+        if (step == 2) //Drive straight again
         {
             dController.SetSetpoint(stepTwoDistance);
             aController.SetSetpoint(0);
         }
-        if (step == 3)
+        if (step == 3) //Outtake
         {
             dController.Disable();
             aController.Disable();
-            bot->intake.SetRoller(1);
+            bot->intake.SetRoller(-1);
         }
     }
     
@@ -115,6 +114,9 @@ void AutoPIDController::handle(SlothRobot* bot)
 //! This will be called at AutonomousInit(), so that we can keep track of what we have to do.
 void AutoPIDController::start()
 {
+    step = -1;
+    autoTimer.Stop();
+    autoTimer.Reset();
     autoTimer.Start();
     gyro.Reset();
 

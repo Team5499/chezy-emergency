@@ -15,7 +15,7 @@ class ManualPIDOut : public PIDOutput
         double getOut() {return lastOut;}
         void PIDWrite(float output) {lastOut = (double) output;}
         ManualPIDOut() {}
-        
+
 };
 
 /*
@@ -25,7 +25,7 @@ class TwoEncoders : public PIDSource
 {
     private:
         // Pointers to encoders owned by other classes
-        Encoder *l; 
+        Encoder *l;
         Encoder *r;
     protected:
         PIDSourceType m_pidSource = PIDSourceType::kDisplacement;
@@ -35,8 +35,8 @@ class TwoEncoders : public PIDSource
         //! Set the specified sourcetype for both of our encoders.
         void SetPIDSourceType(PIDSourceType pidSource) {l->SetPIDSourceType(pidSource); r->SetPIDSourceType(pidSource);}
         //! Return the average of both encoder values.
-        double PIDGet() {return (l->PIDGet()+r->PIDGet())/2.0;}
+        double PIDGet() {return (l->PIDGet()-r->PIDGet())/2.0;}
         //! Initialize both of our pointers to actual Encoder classes.
         TwoEncoders(Encoder* left, Encoder* right) {l = left; r = right;}
-        
+
 };
