@@ -1,4 +1,4 @@
-# Chezy 2016 Emergency Rewritecmak [![Build Status](https://travis-ci.org/Team5499/frc-cpp-project-skeleton.svg?branch=master)](https://travis-ci.org/Team5499/frc-cpp-project-skeleton)
+# Sloth Bear Offseason Production [![Build Status](https://travis-ci.org/Team5499/frc-cpp-project-skeleton.svg?branch=master)](https://travis-ci.org/Team5499/frc-cpp-project-skeleton)
 C++ Code for Chezy Champs 2016. This code was written the night before Chezy to replace our buggy Java code.
 
 ```
