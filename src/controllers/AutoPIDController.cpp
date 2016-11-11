@@ -77,8 +77,8 @@ void AutoPIDController::handle(SlothRobot* bot)
         return;
     }
     if (dController.OnTarget() && aController.OnTarget() && step != 5499) {
-        std::cout << "Current Angle error:" << aController.GetError() << std::endl;
-        std::cout << "Current Distance error:" << dController.GetError() << std::endl;
+        std::cout << "Current Angle error: " << aController.GetError() << std::endl;
+        std::cout << "Current Distance error: " << dController.GetError() << std::endl;
         std::cout << "Moving on to step " << step+1 << std::endl;
         // If we're within acceptable bounds for both angle and distance
         step++;
@@ -134,10 +134,10 @@ void AutoPIDController::start()
 }
 
 void AutoPIDController::posthumous() {
-    std::cout << "Final Relative Angle:" << gyro.PIDGet() << std::endl;
-    std::cout << "Final Angle error:" << aController.GetError() << std::endl;
-    std::cout << "Final Relative Distance" << distance.PIDGet() << std::endl;
-    std::cout << "Final Distance error:" << dController.GetError() << std::endl;
+    std::cout << "Final Relative Angle: " << gyro.PIDGet() << std::endl;
+    std::cout << "Final Angle error: " << aController.GetError() << std::endl;
+    std::cout << "Final Relative Distance: " << distance.PIDGet() << std::endl;
+    std::cout << "Final Distance error: " << dController.GetError() << std::endl;
     std::cout << "Ended on step "<< step << std::endl;
     
 }
