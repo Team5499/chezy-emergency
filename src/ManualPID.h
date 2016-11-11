@@ -34,6 +34,8 @@ class TwoEncoders : public PIDSource
         PIDSourceType GetPIDSourceType() {return m_pidSource;}
         //! Set the specified sourcetype for both of our encoders.
         void SetPIDSourceType(PIDSourceType pidSource) {l->SetPIDSourceType(pidSource); r->SetPIDSourceType(pidSource);}
+        //! Reset the values for both encoders.
+        void Reset() {l->Reset(); r->Reset();}
         //! Return the average of both encoder values.
         double PIDGet() {return (l->PIDGet()+r->PIDGet())/2.0;}
         //! Initialize both of our pointers to actual Encoder classes.

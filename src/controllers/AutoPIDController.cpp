@@ -11,8 +11,8 @@ AutoPIDController::AutoPIDController()
     distance(&lEncoder, &rEncoder),
 
     // Angular PID constants
-    kPa(0.06),
-    kIa(0.0001),
+    kPa(0.),
+    kIa(0.00),
     kDa(0.0),
     kEa(1),
 
@@ -20,12 +20,12 @@ AutoPIDController::AutoPIDController()
     kPd(0.005),
     kId(0.0),
     kDd(0.0),
-    kEd(18),
+    kEd(20.0),
 
-    step(-1),    
-    stepZeroDistance(1698),
-    stepOneAngle(39),
-    stepTwoDistance(1210),
+    step(-1),
+    stepZeroDistance(1700),
+    stepOneAngle(50),
+    stepTwoDistance(1220),
     
     speedOut(),
     angleOut(),
@@ -38,6 +38,9 @@ AutoPIDController::AutoPIDController()
 
     aController.SetContinuous(true);
     dController.SetContinuous(false);
+
+    aController.SetAbsoluteTolerance(kEa);
+    dController.SetAbsoluteTolerance(kEd);
 
     rEncoder.SetReverseDirection(true); // Right encoder went negative?
 
@@ -53,13 +56,14 @@ AutoPIDController::AutoPIDController()
 */
 void AutoPIDController::handle(SlothRobot* bot)
 {   
+    SmartDashboard::PutNumber("Current Step", step);
     /* 
     This is fairly dirty, we need to talk about better solutions for 2017.
     If anyone has a better idea, please tell me because I hate this.
     */
     if (step == -1) {
-        bot->intake.SetArm(-0.55);
-        if (autoTimer.Get() > 0.8) {
+        bot->intake.SetArm(-.5499);
+        if (autoTimer.Get() > 0.75) {
             autoTimer.Stop();
             bot->intake.SetArm(0);
             step++;
@@ -72,13 +76,16 @@ void AutoPIDController::handle(SlothRobot* bot)
         }
         return;
     }
-    if (abs(dController.GetError())<kEd && abs(aController.GetError())<kEa) {
+    if (dController.OnTarget() && aController.OnTarget() && step != 5499) {
+        std::cout << "Current Angle error:" << aController.GetError() << std::endl;
+        std::cout << "Current Distance error:" << dController.GetError() << std::endl;
+        std::cout << "Moving on to step " << step+1 << std::endl;
         // If we're within acceptable bounds for both angle and distance
         step++;
         // Zero the sensors
+        
         gyro.Reset();
-        lEncoder.Reset();
-        rEncoder.Reset();
+        distance.Reset();
 
         if (step == 1) //Turn to angle
         {
@@ -95,7 +102,9 @@ void AutoPIDController::handle(SlothRobot* bot)
             dController.Disable();
             aController.Disable();
             bot->intake.SetRoller(-1);
+            step = 5499;
         }
+
     }
     
 
@@ -119,8 +128,7 @@ void AutoPIDController::start()
     autoTimer.Reset();
     autoTimer.Start();
     gyro.Reset();
-    lEncoder.Reset();
-    rEncoder.Reset();
+    distance.Reset();
 
     std::cout << "Starting Autonomous Control." << std::endl;
 }
