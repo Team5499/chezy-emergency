@@ -46,5 +46,6 @@ public:
     AutoPIDController();
     void handle(SlothRobot* bot);
     void start();
+    void posthumous();
 
 };

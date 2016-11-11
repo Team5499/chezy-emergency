@@ -132,3 +132,12 @@ void AutoPIDController::start()
 
     std::cout << "Starting Autonomous Control." << std::endl;
 }
+
+void AutoPIDController::posthumous() {
+    std::cout << "Final Relative Angle:" << gyro.PIDGet() << std::endl;
+    std::cout << "Final Angle error:" << aController.GetError() << std::endl;
+    std::cout << "Final Relative Distance" << distance.PIDGet() << std::endl;
+    std::cout << "Final Distance error:" << dController.GetError() << std::endl;
+    std::cout << "Ended on step "<< step << std::endl;
+    
+}

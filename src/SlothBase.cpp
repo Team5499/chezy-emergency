@@ -21,6 +21,7 @@ void SlothBase::AutonomousPeriodic()
 // Teleop Methods
 void SlothBase::TeleopInit()
 {
+    autoController.posthumous();
     operatorController.start();
 }
 void SlothBase::TeleopPeriodic()
