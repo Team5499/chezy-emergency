@@ -38,6 +38,8 @@ class TwoEncoders : public PIDSource
         void Reset() {l->Reset(); r->Reset();}
         //! Return the average of both encoder values.
         double PIDGet() {return (l->PIDGet()+r->PIDGet())/2.0;}
+        //! Return velocity
+        double GetRate() {return (l->GetRate()+r->GetRate())/2.0;}
         //! Initialize both of our pointers to actual Encoder classes.
         TwoEncoders(Encoder* left, Encoder* right) {l = left; r = right;}
 

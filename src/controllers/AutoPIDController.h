@@ -21,11 +21,13 @@ private:
     const float kIa; //!< Integral constant for angle.
     const float kDa; //!< Derivative constant for angle.
     const float kEa; //!< Acceptable absolute error to consider a turn complete.
+    const float kVa; //!< Maximum acceptable angular velocity for a turn to be complete.
     
     const float kPd; //!< Proportional constant for distance.
     const float kId; //!< Integral constant for distance.
     const float kDd; //!< Derivative constant for distance.
     const float kEd; //!< Acceptable absolute error to consider a distance drive complete.
+    const float kVd; //!< Maximum acceptable velocity to be finished with a drive.
 
     int step; //!< Current step of routine.
 

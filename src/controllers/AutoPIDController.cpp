@@ -11,21 +11,23 @@ AutoPIDController::AutoPIDController()
     distance(&lEncoder, &rEncoder),
 
     // Angular PID constants
-    kPa(0.0225),
+    kPa(0.05),
     kIa(0.0),
     kDa(0.0),
-    kEa(2.0),
+    kEa(3.0),
+    kVa(2.0),
 
     // Distance PID constants
-    kPd(0.006),
-    kId(0.001),
+    kPd(0.015),
+    kId(0.0),
     kDd(0.0),
-    kEd(25.0),
+    kEd(20.0),
+    kVd(125.0),
 
     step(-1),
-    stepZeroDistance(1000),
-    stepOneAngle(54.99),
-    stepTwoDistance(750),
+    stepZeroDistance(950),
+    stepOneAngle(60),
+    stepTwoDistance(560),
     
     speedOut(),
     angleOut(),
@@ -65,7 +67,7 @@ void AutoPIDController::handle(SlothRobot* bot)
     If anyone has a better idea, please tell me because I hate this.
     */
     if (step == -1) {
-        bot->intake.SetArm(-.5499);
+        bot->intake.SetArm(-.55);
         if (autoTimer.Get() > 0.75) {
             autoTimer.Stop();
             bot->intake.SetArm(0);
@@ -79,20 +81,24 @@ void AutoPIDController::handle(SlothRobot* bot)
         }
         return;
     }
-    if (dController.OnTarget() && aController.OnTarget() && step != 5499) {
+    if ((dController.OnTarget() && std::fabs(distance.GetRate()) < kVd)
+     && (aController.OnTarget() && std::fabs(gyro.GetRate()) < kVa) && step != 5499) {
         std::cout << "Moving on to step " << step+1 << std::endl;
         std::cout << "Current Angle error: " << aController.GetError() << std::endl;
         std::cout << "Current Distance error: " << dController.GetError() << std::endl;
         // If we're within acceptable bounds for both angle and distance
         step++;
         // Zero the sensors
-        
+        dController.Reset();
+        aController.Reset();
         gyro.Reset();
         distance.Reset();
+        dController.Enable();
+        aController.Enable();
 
         if (step == 1) //Turn to angle
         {
-            dController.SetSetpoint(0.0);
+            dController.SetSetpoint(0);
             aController.SetSetpoint(stepOneAngle);
         }
         if (step == 2) //Drive straight again
@@ -114,12 +120,15 @@ void AutoPIDController::handle(SlothRobot* bot)
     double speed = speedOut.getOut(); //!< The desired base speed of the robot wheels.
     double angle = angleOut.getOut(); //!< The difference in desired wheel speeds between left and right.
 
-    SmartDashboard::PutNumber("Speed", speed);
-    SmartDashboard::PutNumber("Angle", angle);
+    SmartDashboard::PutNumber("Distance", distance.PIDGet());
+    SmartDashboard::PutNumber("Angle", gyro.GetAngle());
 
-    SmartDashboard::PutNumber("Distance Error", dController.GetError());
-    SmartDashboard::PutNumber("Angle Error", aController.GetError());
+    SmartDashboard::PutNumber("Angular Velocity", gyro.GetRate());
+    SmartDashboard::PutNumber("Velocity", distance.GetRate());
     
+    SmartDashboard::PutNumber("Angle AvgError", aController.GetAvgError());
+    SmartDashboard::PutNumber("Distance AvgError", dController.GetAvgError());
+
     bot->drivetrain.DriveLR(speed+angle, speed-angle);
     
 }
