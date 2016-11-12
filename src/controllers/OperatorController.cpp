@@ -33,7 +33,7 @@ void OperatorController::handle(SlothRobot* bot)
                             throttle_value - wheel_value);
 
     /* Shifting */
-    if(throttle.GetRawButton(4))
+    if(wheel.GetRawButton(4))
     {
         bot->drivetrain.Shift(Drivetrain::ShiftState::HIGH);
     }

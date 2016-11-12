@@ -12,7 +12,7 @@ class ManualPIDOut : public PIDOutput
     private:
         double lastOut = 0;
     public:
-        double getOut() {return lastOut;}
+        double getOut() const {return lastOut;}
         void PIDWrite(float output) {lastOut = (double) output;}
         ManualPIDOut() {}
 
@@ -31,7 +31,7 @@ class TwoEncoders : public PIDSource
         PIDSourceType m_pidSource = PIDSourceType::kDisplacement;
     public:
         //! Get our source.
-        PIDSourceType GetPIDSourceType() {return m_pidSource;}
+        PIDSourceType GetPIDSourceType() const {return m_pidSource;}
         //! Set the specified sourcetype for both of our encoders.
         void SetPIDSourceType(PIDSourceType pidSource) {l->SetPIDSourceType(pidSource); r->SetPIDSourceType(pidSource);}
         //! Reset the values for both encoders.

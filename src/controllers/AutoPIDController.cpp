@@ -11,21 +11,21 @@ AutoPIDController::AutoPIDController()
     distance(&lEncoder, &rEncoder),
 
     // Angular PID constants
-    kPa(0.),
-    kIa(0.00),
+    kPa(0.0225),
+    kIa(0.0),
     kDa(0.0),
-    kEa(1),
+    kEa(2.0),
 
     // Distance PID constants
-    kPd(0.005),
-    kId(0.0),
+    kPd(0.006),
+    kId(0.001),
     kDd(0.0),
-    kEd(20.0),
+    kEd(25.0),
 
     step(-1),
-    stepZeroDistance(1700),
-    stepOneAngle(50),
-    stepTwoDistance(1220),
+    stepZeroDistance(1000),
+    stepOneAngle(54.99),
+    stepTwoDistance(750),
     
     speedOut(),
     angleOut(),
@@ -41,6 +41,9 @@ AutoPIDController::AutoPIDController()
 
     aController.SetAbsoluteTolerance(kEa);
     dController.SetAbsoluteTolerance(kEd);
+
+    aController.SetToleranceBuffer(5);
+    dController.SetToleranceBuffer(5);
 
     rEncoder.SetReverseDirection(true); // Right encoder went negative?
 
@@ -77,9 +80,9 @@ void AutoPIDController::handle(SlothRobot* bot)
         return;
     }
     if (dController.OnTarget() && aController.OnTarget() && step != 5499) {
+        std::cout << "Moving on to step " << step+1 << std::endl;
         std::cout << "Current Angle error: " << aController.GetError() << std::endl;
         std::cout << "Current Distance error: " << dController.GetError() << std::endl;
-        std::cout << "Moving on to step " << step+1 << std::endl;
         // If we're within acceptable bounds for both angle and distance
         step++;
         // Zero the sensors
@@ -89,7 +92,7 @@ void AutoPIDController::handle(SlothRobot* bot)
 
         if (step == 1) //Turn to angle
         {
-            dController.SetSetpoint(0);
+            dController.SetSetpoint(0.0);
             aController.SetSetpoint(stepOneAngle);
         }
         if (step == 2) //Drive straight again
@@ -99,7 +102,7 @@ void AutoPIDController::handle(SlothRobot* bot)
         }
         if (step == 3) //Outtake
         {
-            dController.Disable();
+            dController.SetSetpoint(0);
             aController.Disable();
             bot->intake.SetRoller(-1);
             step = 5499;
@@ -134,10 +137,14 @@ void AutoPIDController::start()
 }
 
 void AutoPIDController::posthumous() {
+    std::cout << "Ended on step " << step << std::endl;
     std::cout << "Final Relative Angle: " << gyro.PIDGet() << std::endl;
     std::cout << "Final Angle error: " << aController.GetError() << std::endl;
     std::cout << "Final Relative Distance: " << distance.PIDGet() << std::endl;
     std::cout << "Final Distance error: " << dController.GetError() << std::endl;
-    std::cout << "Ended on step "<< step << std::endl;
+    
+    // Make sure controllers aren't running in background
+    aController.Disable();
+    dController.Disable();
     
 }
