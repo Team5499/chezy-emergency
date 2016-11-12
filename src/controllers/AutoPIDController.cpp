@@ -11,11 +11,11 @@ AutoPIDController::AutoPIDController()
     distance(&lEncoder, &rEncoder),
 
     // Angular PID constants
-    kPa(0.05),
+    kPa(0.04),
     kIa(0.0),
     kDa(0.0),
-    kEa(3.0),
-    kVa(2.0),
+    kEa(2.0),
+    kVa(5.0),
 
     // Distance PID constants
     kPd(0.015),
@@ -36,16 +36,17 @@ AutoPIDController::AutoPIDController()
 
 {
     aController.SetPIDSourceType(PIDSourceType::kDisplacement); // Control angle, not angular velocity
-    dController.SetPIDSourceType(PIDSourceType::kDisplacement); // Control distance, not velocity.
-
     aController.SetContinuous(true);
-    dController.SetContinuous(false);
-
     aController.SetAbsoluteTolerance(kEa);
-    dController.SetAbsoluteTolerance(kEd);
-
     aController.SetToleranceBuffer(5);
+    aController.SetInputRange(-360, 360);
+    aController.SetOutputRange(-1, 1);
+
+    dController.SetPIDSourceType(PIDSourceType::kDisplacement); // Control distance, not velocity.
+    dController.SetContinuous(false);
+    dController.SetAbsoluteTolerance(kEd);
     dController.SetToleranceBuffer(5);
+    dController.SetOutputRange(-1, 1);
 
     rEncoder.SetReverseDirection(true); // Right encoder went negative?
 
@@ -81,8 +82,9 @@ void AutoPIDController::handle(SlothRobot* bot)
         }
         return;
     }
-    if ((dController.OnTarget() && std::fabs(distance.GetRate()) < kVd)
-     && (aController.OnTarget() && std::fabs(gyro.GetRate()) < kVa) && step != 5499) {
+    if ((dController.OnTarget() && std::fabs(distance.GetRate()) < kVd && std::fabs(dController.GetError()) < kVd)
+    && (aController.OnTarget() && std::fabs(gyro.GetRate()) < kVa && std::fabs(aController.GetError()) < kVa)
+    && step != 5499) {
         std::cout << "Moving on to step " << step+1 << std::endl;
         std::cout << "Current Angle error: " << aController.GetError() << std::endl;
         std::cout << "Current Distance error: " << dController.GetError() << std::endl;
