@@ -1,6 +1,6 @@
 sudo apt-add-repository ppa:wpilib/toolchain
 sudo apt update
-sudo apt-get install cmake, build-essential, git, doxygen, frc-toolchain, unzip
+sudo apt-get install cmake build-essential git doxygen frc-toolchain unzip
 
 
 cd ~
