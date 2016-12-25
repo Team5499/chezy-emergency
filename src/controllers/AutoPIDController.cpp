@@ -82,8 +82,8 @@ void AutoPIDController::handle(SlothRobot* bot)
         }
         return;
     }
-    if ((dController.OnTarget() && std::fabs(distance.GetRate()) < kVd && std::fabs(dController.GetError()) < kVd)
-    && (aController.OnTarget() && std::fabs(gyro.GetRate()) < kVa && std::fabs(aController.GetError()) < kVa)
+    if ((dController.OnTarget() && std::fabs(distance.GetRate()) < kVd && std::fabs(dController.GetError()) < kEd)
+    && (aController.OnTarget() && std::fabs(gyro.GetRate()) < kVa && std::fabs(aController.GetError()) < kEa)
     && step != 5499) {
         std::cout << "Moving on to step " << step+1 << std::endl;
         std::cout << "Current Angle error: " << aController.GetError() << std::endl;
